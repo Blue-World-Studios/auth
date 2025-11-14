@@ -66,5 +66,67 @@
     }
 
     .link {
-      text-align: cen
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .logo {
+      width: 70px;
+      display: block;
+      margin: 0 auto 10px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img src="https://blue-world-studios.github.io/logo.png" class="logo" alt="Blue World Logo">
+    <h2>Sign in to Blue World</h2>
+
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="signIn()">Sign In</button>
+
+    <div class="link">Don’t have an account? <a href="/auth/signup">Sign up</a></div>
+  </div>
+
+  <script>
+    function signIn() {
+      const u = document.getElementById("username").value.trim();
+      const p = document.getElementById("password").value.trim();
+
+      if (u === "" || p === "") {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      // Fake localStorage login (works on GitHub Pages)
+      const saved = JSON.parse(localStorage.getItem("blueworld_users") || "{}");
+
+      if (!saved[u]) {
+        alert("Account not found!");
+        return;
+      }
+
+      if (saved[u].password !== p) {
+        alert("Wrong password!");
+        return;
+      }
+
+      // Save the logged-in user
+      localStorage.setItem("blueworld_loggedIn", u);
+
+      alert("Signed in as " + u);
+
+      // Redirect back to app (you can change this)
+      window.location.href = "/success/";
+    }
+  </script>
+
+</body>
+</html>
+
 
