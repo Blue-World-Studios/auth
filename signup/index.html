@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue World — Sign Up</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #03112b, #06275d);
+      color: #00f0ff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Animated floating particles (optional neon effect) */
+    body::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0,240,255,0.05) 1%, transparent 1%) repeat;
+      background-size: 50px 50px;
+      animation: moveBG 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes moveBG {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-100px, -100px); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 36px;
+      border-radius: 20px;
+      width: 340px;
+      box-shadow: 0 0 20px #00f0ff, 0 0 40px #7f00ff;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      width: 80px;
+      display: block;
+      margin: 0 auto 15px auto;
+      filter: drop-shadow(0 0 10px #00f0ff) drop-shadow(0 0 20px #7f00ff);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 28px;
+      text-shadow: 0 0 5px #00f0ff, 0 0 10px #7f00ff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid #00f0ff;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.3);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #7f00ff;
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #7f00ff;
+      background: rgba(0,0,0,0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00f0ff;
+      border: none;
+      border-radius: 12px;
+      color: #03112b;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 12px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #7f00ff;
+    }
+
+    button:hover {
+      background: #7f00ff;
+      color: #fff;
+      box-shadow: 0 0 20px #7f00ff, 0 0 40px #00f0ff;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .link a {
+      color: #00f0ff;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .link a:hover {
+      color: #7f00ff;
+      text-shadow: 0 0 5px #7f00ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img src="https://blue-world-studios.github.io/blue-world-high-resolution-logo-transparent-removebg-preview.png" class="logo" alt="Blue World Logo">
+    <h2>Create Your Blue World Account</h2>
+
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <input id="confirm" type="password" placeholder="Confirm Password">
+
+    <button onclick="signUp()">Sign Up</button>
+
+    <div class="link">Already have an account? <a href="/auth/">Sign in</a></div>
+  </div>
+
+  <script>
+    function signUp() {
+      const u = document.getElementById("username").value.trim();
+      const p = document.getElementById("password").value.trim();
+      const c = document.getElementById("confirm").value.trim();
+
+      if (!u || !p || !c) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      if (p !== c) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const saved = JSON.parse(localStorage.getItem("blueworld_users") || "{}");
+
+      if (saved[u]) {
+        alert("Username already exists!");
+        return;
+      }
+
+      saved[u] = { password: p };
+      localStorage.setItem("blueworld_users", JSON.stringify(saved));
+
+      localStorage.setItem("blueworld_loggedIn", u);
+      alert("Account created! Signed in as " + u);
+      window.location.href = "/success/";
+    }
+  </script>
+
+</body>
+</html>
